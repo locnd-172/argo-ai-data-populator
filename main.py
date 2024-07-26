@@ -16,7 +16,7 @@ db = firestore.client()
 df = pd.DataFrame()
 timer_value = 0
 
-excel_file = "./data.xlsx"
+excel_file = "./data_input.xlsx"
 df_excel = pd.read_excel(excel_file)
 current_row = 0
 
@@ -77,12 +77,12 @@ def populate_data(stop_event):
         print(f'type: {type(row["datetime"])}')
         data = {
             "data": data_item,
-            "date": row["datetime"], 
+            "date": row["datetime"],
             "facility": str(facility).lower(),
             "location": {key: row.get(key, None) for key in location_data},
             "plant": str(row["plant"]).lower().strip(),
         }
-        db.collection("mrv_data").add(data)
+        db.collection("mrv_system").add(data)
         data["date"] = data["date"].strftime("%Y/%m/%d")
         _data = {k: [json.dumps(v, ensure_ascii=False)] for k, v in data.items()}
         print(_data)
@@ -137,4 +137,4 @@ with gr.Blocks() as demo:
     demo.load(lambda: timer_value, None, outputs=timer_text, every=1)
 
 
-demo.launch()
+demo.launch(share=True)
