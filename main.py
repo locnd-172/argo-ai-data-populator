@@ -8,7 +8,7 @@ import firebase_admin
 from datetime import datetime
 
 cred = firebase_admin.credentials.Certificate(
-    "./argoai-63051-firebase-adminsdk-ykwbi-a14bbb8c68.json"
+    "./smart-agri-bbd45-firebase-adminsdk-jfpri-5e03cc48f1.json"
 )
 firebase_admin.initialize_app(cred)
 db = firestore.client()
@@ -42,8 +42,14 @@ soil_data = [
     "soil_ph",
     "soil_conductivity",
 ]
-irrigation_data = ["water_consumed", "water_recycled"]
+irrigation_data = [
+    "water_consumed",
+    "water_recycled",
+    "irrigation_type",
+    "days_flooded",
+]
 pest_data = ["pest_population_counts", "disease_incidence", "severity_of_infestations"]
+energy_data = ["diesel", "gasoline", "electricity"]
 
 
 def create_data_item(row):
@@ -53,6 +59,7 @@ def create_data_item(row):
         "pest": {key: row.get(key, None) for key in pest_data},
         "irrigation": {key: row.get(key, None) for key in irrigation_data},
         "soil": {key: row.get(key, None) for key in soil_data},
+        "energy": {key: row.get(key, None) for key in energy_data},
     }
 
 
